@@ -1,41 +1,16 @@
 pipeline {
 	agent {
 		docker {
-			image 'composer:latest'
-		}
+            image 'node:lts-buster-slim'
+            args '-p 3000:3000'
+        }
 	}
+
 	stages {
-		stage('Checkout SCM') {
+		stage('Build') {
 			steps {
-				git 'https://github.com/whitneytwh/practical-quiz-webapp'
+				sh 'npm install'
 			}
 		}
-
-		// stage('Build') {
-		// 	steps {
-		// 		sh 'composer install'
-		// 	}
-		// }
-
-		stage('OWASP DependencyCheck') {
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML --suppression suppression.xml', odcInstallation: 'OWASP-Dependency-Check'
-			}
-		}
-
-		// stage('Test') {
-		// 	steps {
-		// 		sh './vendor/bin/phpunit --log-junit logs/unitreport.xml -c tests/phpunit.xml tests'
-		// 	}
-		// }
-	}	
-	post {
-		success {
-			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-		}
-
-		// always {
-		// 	junit testResults: 'logs/unitreport.xml'
-		// }
 	}
 }
