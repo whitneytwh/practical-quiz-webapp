@@ -7,6 +7,12 @@ pipeline {
 			}
 		}
 
+		stage('Build') {
+			steps {
+				sh 'composer install'
+			}
+		}
+
 		stage('OWASP DependencyCheck') {
 			steps {
 				dependencyCheck additionalArguments: '--format HTML --format XML --suppression suppression.xml', odcInstallation: 'OWASP-Dependency-Check'
