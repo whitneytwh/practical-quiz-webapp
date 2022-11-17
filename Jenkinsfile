@@ -3,10 +3,10 @@ pipeline {
 	stages {
 		stage('Checkout SCM') {
 			steps {
-				git 'https://github.com/whitneytwh/JenkinsDependencyCheckTest'
+				git 'https://github.com/whitneytwh/practical-quiz-webapp'
 			}
 		}
-		
+
 		stage('Build') {
 			steps {
 				sh 'composer install'
