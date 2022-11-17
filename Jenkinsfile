@@ -1,16 +1,21 @@
 pipeline {
-	agent {
-		docker {
-            image 'node:lts-buster-slim'
-            args '-p 3000:3000'
-        }
-	}
-
+	agent any
 	stages {
-		stage('Build') {
+		stage('Checkout SCM') {
 			steps {
-				sh 'npm install'
+				git 'https://github.com/whitneytwh/practical-quiz-webapp'
 			}
+		}
+
+		stage('OWASP DependencyCheck') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML --suppression suppression.xml', odcInstallation: 'OWASP-Dependency-Check'
+			}
+		}
+	}	
+	post {
+		success {
+			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 		}
 	}
 }
