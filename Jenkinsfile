@@ -1,15 +1,6 @@
 pipeline {
-	agent {
-		docker {
-			image 'composer:latest'
-		}
-	}
+	agent any
 	stages {
-		stage('Build') {
-			steps {
-				sh 'composer install'
-			}
-		}
 		stage('Checkout SCM') {
 			steps {
 				git 'https://github.com/whitneytwh/JenkinsDependencyCheckTest'
