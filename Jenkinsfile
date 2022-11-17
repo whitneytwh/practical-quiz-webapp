@@ -1,6 +1,15 @@
 pipeline {
-	agent any
+	agent {
+		docker {
+			image 'composer:latest'
+		}
+	}
 	stages {
+		stage('Build') {
+			steps {
+				sh 'composer install'
+			}
+		}
 		stage('Checkout SCM') {
 			steps {
 				git 'https://github.com/whitneytwh/JenkinsDependencyCheckTest'
@@ -13,19 +22,19 @@ pipeline {
 			}
 		}
 
-		stage('Test') {
-			steps {
-				sh './vendor/bin/phpunit --log-junit logs/unitreport.xml -c tests/phpunit.xml tests'
-			}
-		}
+		// stage('Test') {
+		// 	steps {
+		// 		sh './vendor/bin/phpunit --log-junit logs/unitreport.xml -c tests/phpunit.xml tests'
+		// 	}
+		// }
 	}	
 	post {
 		success {
 			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 		}
 
-		always {
-			junit testResults: 'logs/unitreport.xml'
-		}
+		// always {
+		// 	junit testResults: 'logs/unitreport.xml'
+		// }
 	}
 }
