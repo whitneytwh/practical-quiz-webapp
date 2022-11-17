@@ -11,11 +11,11 @@ pipeline {
 			}
 		}
 
-		stage('Build') {
-			steps {
-				sh 'composer install'
-			}
-		}
+		// stage('Build') {
+		// 	steps {
+		// 		sh 'composer install'
+		// 	}
+		// }
 
 		stage('OWASP DependencyCheck') {
 			steps {
