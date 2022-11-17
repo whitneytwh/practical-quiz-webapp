@@ -6,7 +6,7 @@ pipeline {
 				git 'https://github.com/whitneytwh/JenkinsDependencyCheckTest'
 			}
 		}
-
+		
 		stage('Build') {
 			steps {
 				sh 'composer install'
